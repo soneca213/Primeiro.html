@@ -11,6 +11,7 @@
         :root {
             --primary: #7a00ff;
             --secondary: #c400ff;
+            --bg-dark: #12001c;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -19,28 +20,25 @@
             min-height: 100vh;
             background: radial-gradient(circle at center, #2a003f, #12001c);
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
-        /* CONTAINER ENVELOPE */
+        /* ÁUDIO (Escondido) */
+        #meuAudio { display: none; }
+
+        /* CONTAINER */
         .wrapper-total {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 30px;
             z-index: 10;
-            transition: all 0.6s ease;
         }
 
-        .wrapper-total.fade-out {
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-        }
-
+        /* ENVELOPE */
         .envelope {
             position: relative;
             width: 300px;
@@ -49,236 +47,123 @@
             cursor: pointer;
             perspective: 1000px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transition: transform 0.3s;
         }
 
+        .envelope:hover { transform: scale(1.05); }
+
+        /* Aba superior do envelope */
         .envelope::before {
             content: "";
             position: absolute;
             top: 0; left: 0;
-            z-index: 3;
+            z-index: 4;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
             border-top: 100px solid var(--primary);
             transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Lados do envelope */
         .envelope::after {
             content: "";
             position: absolute;
             bottom: 0; left: 0;
             z-index: 2;
-            width: 0; height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-bottom: 100px solid #4b0082;
+            border-left: 150px solid #4a0072;
+            border-right: 150px solid #4a0072;
+            border-bottom: 100px solid #32004d;
         }
 
+        /* A CARTA DENTRO */
+        .carta {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 280px;
+            height: 180px;
+            background: #fff;
+            z-index: 1;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.6s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .carta h2 {
+            font-family: 'Pinyon Script', cursive;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        /* ESTADO ABERTO */
         .envelope.open::before {
             transform: rotateX(180deg);
             z-index: 0;
         }
 
+        .envelope.open .carta {
+            transform: translateY(-100px);
+            z-index: 3;
+        }
+
         .instrucao {
             color: white;
-            font-weight: bold;
-            letter-spacing: 3px;
             font-size: 0.9rem;
-            text-align: center;
-            text-shadow: 0 0 10px var(--primary);
-            animation: piscar 1.5s infinite;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes piscar {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
         }
-
-        /* CARTÃO DE CONVITE (FONTES ORIGINAIS) */
-        .card-luxo {
-            position: absolute;
-            display: none;
-            z-index: 5;
-            width: 92%;
-            max-width: 500px;
-            max-height: 90vh;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 35px;
-            padding: 35px 25px;
-            flex-direction: column;
-            gap: 20px;
-            text-align: center;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 25px var(--primary);
-            overflow-y: auto;
-            animation: aparecer 1s ease-out forwards;
-        }
-
-        @keyframes aparecer {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .idade {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            letter-spacing: 8px;
-            color: #7b1fa2;
-        }
-
-        .nome {
-            font-family: 'Pinyon Script', cursive;
-            font-size: 4.5rem;
-            background: linear-gradient(90deg, #6a00ff, #c400ff, #6a00ff);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: brilhoNome 4s linear infinite;
-        }
-
-        @keyframes brilhoNome {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        .frase {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 1.1rem;
-            color: #6d4c7d;
-        }
-
-        .infos {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .infos b {
-            display: block;
-            color: #7b1fa2;
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-        }
-
-        input {
-            padding: 15px;
-            border: none;
-            border-bottom: 3px solid #aa00ff;
-            background: transparent;
-            text-align: center;
-            font-size: 1rem;
-            outline: none;
-            width: 100%;
-        }
-
-        button {
-            padding: 18px;
-            background: #7b1fa2;
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        .nao-ir {
-            margin-top: 10px;
-            color: #7a00ff;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* ESTRELAS */
-        #sky { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .star { position: absolute; color: #c400ff; animation: fall linear infinite; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <audio id="musica" preload="auto">
+    <audio id="meuAudio">
         <source src="musica.mp3" type="audio/mpeg">
+        Seu navegador não suporta o áudio.
     </audio>
 
-    <div class="wrapper-total" id="envelopeWrapper" onclick="iniciar()">
-        <div class="envelope" id="envelopeAnim"></div>
-        <div class="instrucao">CLIQUE PARA ABRIR</div>
-    </div>
-
-    <div id="sky"></div>
-
-    <div class="card-luxo" id="convite">
-        <p class="idade">17 ANOS</p>
-        <h1 class="nome">Thaís Vitória</h1>
+    <div class="wrapper-total">
+        <p class="instrucao">Clique para abrir o convite</p>
         
-        <p class="frase">
-            "Celebrar a vida é colecionar momentos ao lado de quem amamos."
-        </p>
-
-        <div class="infos">
-            📅 <b>25 DE ABRIL DE 2026</b>
-            ⏰ <b>ÀS 19:30 HORAS</b>
-            📍 <b>RUA DO EVENTO, Nº 00</b>
+        <div class="envelope" id="envelope">
+            <div class="carta">
+                <h2>Thaís Vitória</h2>
+                <p style="font-size: 0.8rem; margin-top: 10px; color: #333;">
+                    Você foi convidado para celebrar meus 17 anos!
+                </p>
+            </div>
         </div>
-
-        <input type="text" id="nomeConvidado" placeholder="Seu nome completo">
-        <button onclick="confirmar(true)">CONFIRMAR PRESENÇA</button>
-        <p class="nao-ir" onclick="confirmar(false)">Não poderei ir</p>
     </div>
 
     <script>
-        function iniciar() {
-            const wrapper = document.getElementById('envelopeWrapper');
-            const env = document.getElementById('envelopeAnim');
-            const card = document.getElementById('convite');
-            const som = document.getElementById('musica');
+        const envelope = document.getElementById('envelope');
+        const musica = document.getElementById('meuAudio');
+        let tocando = false;
 
-            som.currentTime = 0;
-            som.play();
+        envelope.addEventListener('click', () => {
+            // Alterna a animação de abrir/fechar
+            envelope.classList.toggle('open');
 
-            env.classList.add('open');
-
-            setTimeout(() => {
-                wrapper.classList.add('fade-out');
-                setTimeout(() => {
-                    wrapper.style.display = 'none';
-                    card.style.display = 'flex';
-                    chuvaDeEstrelas();
-                }, 600);
-            }, 800);
-        }
-
-        function chuvaDeEstrelas() {
-            const sky = document.getElementById('sky');
-            const cores = ['#6a00ff', '#9c00ff', '#c400ff', '#ffffff'];
-            setInterval(() => {
-                const s = document.createElement('div');
-                s.className = 'star';
-                s.innerHTML = "✦";
-                s.style.left = Math.random() * 100 + "vw";
-                s.style.top = "-20px";
-                s.style.color = cores[Math.floor(Math.random() * cores.length)];
-                s.style.fontSize = (Math.random() * 12 + 8) + "px";
-                s.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                sky.appendChild(s);
-                setTimeout(() => s.remove(), 4000);
-            }, 100);
-        }
-
-        function confirmar(vai) {
-            const nome = document.getElementById("nomeConvidado").value;
-            if(!nome){ alert("Digite seu nome antes de confirmar."); return; }
-            const numero = "558184378356";
-            const mensagem = vai ? 
-                `Confirmado ✅ ${nome} estará presente na festa da Thaís Vitória!` : 
-                `${nome} infelizmente não poderá comparecer à festa.`;
-            window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`, "_blank");
-        }
+            // Toca a música apenas na primeira interação ou se estiver pausada
+            if (!tocando) {
+                musica.play().then(() => {
+                    tocando = true;
+                    console.log("Música iniciada!");
+                }).catch(error => {
+                    console.error("Erro ao tocar música. Verifique o arquivo musica.mp3", error);
+                });
+            }
+        });
     </script>
+
 </body>
 </html>
