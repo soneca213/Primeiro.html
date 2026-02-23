@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>17 Anos - Thaís Vitória</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@ background:#12001c;
 font-family:'Montserrat',sans-serif;
 }
 
-/* ===== CENA DA CARTA ===== */
+/* ===== CENA CARTA ===== */
 #cena-abertura{
 position:fixed;
 width:100%;
@@ -27,18 +27,17 @@ justify-content:center;
 align-items:center;
 z-index:100;
 background:#12001c;
-transition:1s ease-in-out;
+transition:1s;
 }
 
-.envelope-wrapper{position:relative;cursor:pointer;perspective:1000px;}
+.envelope-wrapper{cursor:pointer;perspective:1000px;}
 
 .envelope{
-position:relative;
 width:320px;
 height:210px;
 background:#7b1fa2;
-box-shadow:0 20px 50px rgba(0,0,0,0.4);
 border-radius:0 0 12px 12px;
+position:relative;
 }
 
 .tampa{
@@ -50,22 +49,7 @@ border-top:115px solid #9c27b0;
 border-left:160px solid transparent;
 border-right:160px solid transparent;
 transform-origin:top;
-transition:transform 0.8s ease;
-z-index:3;
-}
-
-.envelope::after{
-content:"";
-position:absolute;
-bottom:0;
-width:0;
-height:0;
-border-top:105px solid transparent;
-border-bottom:105px solid #7b1fa2;
-border-left:160px solid #6a1b9a;
-border-right:160px solid #6a1b9a;
-z-index:2;
-border-radius:0 0 12px 12px;
+transition:0.8s;
 }
 
 .selo{
@@ -73,19 +57,14 @@ position:absolute;
 top:95px;
 left:140px;
 font-size:32px;
-z-index:4;
-transition:0.4s;
 }
 
-.aberto .tampa{transform:rotateX(180deg);z-index:1;}
-.aberto .selo{opacity:0;}
+.aberto .tampa{transform:rotateX(180deg);}
 .sumir{opacity:0;pointer-events:none;}
 
-/* ===== TELA DO CONVITE ===== */
+/* ===== TELA ===== */
 #tela-convite{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 display:flex;
@@ -93,7 +72,12 @@ justify-content:center;
 align-items:center;
 opacity:0;
 visibility:hidden;
-transition:opacity 1s ease;
+transition:1s;
+}
+
+.visivel{
+opacity:1!important;
+visibility:visible!important;
 }
 
 .fundo-imagem{
@@ -104,39 +88,54 @@ background:radial-gradient(circle at center,#2a003f,#12001c);
 z-index:1;
 }
 
-/* ===== CARD LUXO ===== */
+/* ===== GLITTER FUNDO ===== */
+#container-confetes{
+position:absolute;
+width:100%;
+height:100%;
+z-index:2; /* ATRÁS DO CARD */
+pointer-events:none;
+}
+
+.glitter{
+position:absolute;
+animation:cair linear infinite;
+opacity:0.9;
+}
+
+@keyframes cair{
+0%{transform:translateY(-20vh);}
+100%{transform:translateY(120vh);}
+}
+
+/* ===== CARD ===== */
 .card-luxo{
 position:relative;
-z-index:10;
-width:98%;
+z-index:5;
+width:95%;
 height:95%;
 max-width:600px;
 background:rgba(255,255,255,0.97);
-padding:50px 30px;
 border-radius:40px;
-text-align:center;
+padding:50px 30px;
 display:flex;
 flex-direction:column;
 justify-content:space-around;
+text-align:center;
 
 transform:scale(0.7);
 opacity:0;
-transition:all 1s ease;
+transition:1s;
 
-/* Borda animada */
-border:4px solid #d4af37;
-box-shadow:0 0 20px rgba(212,175,55,0.6);
-animation: brilhoBorda 3s infinite ease-in-out;
+/* BRILHO ROXO */
+border:4px solid #aa00ff;
+box-shadow:0 0 20px #aa00ff;
+animation:brilhoRoxo 3s infinite ease-in-out;
 }
 
-@keyframes brilhoBorda{
-0%,100%{box-shadow:0 0 20px rgba(212,175,55,0.6);}
-50%{box-shadow:0 0 40px rgba(212,175,55,1);}
-}
-
-.visivel{
-visibility:visible!important;
-opacity:1!important;
+@keyframes brilhoRoxo{
+0%,100%{box-shadow:0 0 20px #aa00ff;}
+50%{box-shadow:0 0 45px #e040fb;}
 }
 
 .visivel .card-luxo{
@@ -144,32 +143,30 @@ transform:scale(1);
 opacity:1;
 }
 
+/* ===== TEXTO ===== */
 .idade{
 font-family:'Playfair Display',serif;
-letter-spacing:12px;
 font-size:2rem;
-font-weight:700;
+letter-spacing:12px;
 color:#7b1fa2;
 }
 
-/* ===== NOME DOURADO METÁLICO ===== */
 .nome{
 font-family:'Pinyon Script',cursive;
 font-size:6.5rem;
-line-height:1;
 
+/* BRILHO ROXO ANIMADO */
 background:linear-gradient(
 90deg,
-#d4af37,
-#fff5cc,
-#d4af37
+#aa00ff,
+#e040fb,
+#aa00ff
 );
 background-size:200% auto;
 color:transparent;
 -webkit-background-clip:text;
 background-clip:text;
-
-animation: brilhoNome 4s linear infinite;
+animation:brilhoNome 4s linear infinite;
 }
 
 @keyframes brilhoNome{
@@ -186,61 +183,33 @@ font-size:1.3rem;
 
 .infos{
 font-size:1.5rem;
-color:#111;
 line-height:1.8;
 }
 
 .infos b{
+display:block;
 color:#7b1fa2;
 font-size:1.8rem;
-display:block;
 }
 
 input{
-width:100%;
-padding:20px;
+padding:18px;
 border:none;
-border-bottom:4px solid #d1c4e9;
+border-bottom:3px solid #aa00ff;
 background:transparent;
 text-align:center;
-font-size:1.4rem;
-font-weight:700;
-color:#4a148c;
-outline:none;
+font-size:1.2rem;
 }
 
 .btn-confirmar{
-width:100%;
-padding:25px;
+margin-top:15px;
+padding:20px;
 background:#7b1fa2;
 color:white;
 border:none;
-border-radius:25px;
+border-radius:20px;
 font-weight:700;
-letter-spacing:2px;
-font-size:1.3rem;
 cursor:pointer;
-}
-
-/* ===== GLITTER ESTRELA ===== */
-#container-confetes{
-position:absolute;
-width:100%;
-height:100%;
-z-index:5;
-pointer-events:none;
-}
-
-.glitter{
-position:absolute;
-font-size:14px;
-animation:cair linear infinite;
-opacity:0.9;
-}
-
-@keyframes cair{
-0%{transform:translateY(-10vh) rotate(0deg);}
-100%{transform:translateY(110vh) rotate(360deg);}
 }
 </style>
 </head>
@@ -254,9 +223,6 @@ opacity:0.9;
 <div class="selo">💌</div>
 </div>
 </div>
-<p style="position:absolute;bottom:20%;color:#d4af37;font-weight:700;letter-spacing:3px;">
-TOQUE PARA ABRIR
-</p>
 </div>
 
 <div id="tela-convite">
@@ -277,16 +243,10 @@ TOQUE PARA ABRIR
 📍 <b>RUA DO EVENTO, Nº 00</b>
 </div>
 
-<div>
 <input type="text" id="convidado" placeholder="Seu nome completo">
 <button class="btn-confirmar" onclick="confirmar(true)">
 CONFIRMAR PRESENÇA
 </button>
-<p onclick="confirmar(false)" 
-style="margin-top:15px;text-decoration:underline;color:#777;cursor:pointer;">
-Não poderei ir
-</p>
-</div>
 
 </div>
 </div>
@@ -294,7 +254,6 @@ Não poderei ir
 <script>
 function iniciarAnimacao(el){
 el.classList.add('aberto');
-
 setTimeout(()=>{
 document.getElementById('cena-abertura').classList.add('sumir');
 document.getElementById('tela-convite').classList.add('visivel');
@@ -304,29 +263,24 @@ soltarGlitter();
 
 function soltarGlitter(){
 const container=document.getElementById('container-confetes');
+const cores=['#aa00ff','#e040fb','#d500f9','#ffffff'];
 
-for(let i=0;i<150;i++){
+for(let i=0;i<200;i++){
 const g=document.createElement('div');
 g.className='glitter';
 g.innerHTML="✦";
 g.style.left=Math.random()*100+"vw";
-g.style.color=['#d4af37','#e1bee7','#ffffff'][Math.floor(Math.random()*3)];
-g.style.fontSize=(Math.random()*10+10)+"px";
-g.style.animationDuration=(Math.random()*3+3)+"s";
-g.style.animationDelay=(Math.random()*5)+"s";
+g.style.top=Math.random()*100+"vh"; /* já nasce espalhado */
+g.style.color=cores[Math.floor(Math.random()*cores.length)];
+g.style.fontSize=(Math.random()*12+8)+"px";
+g.style.animationDuration=(Math.random()*4+4)+"s";
 container.appendChild(g);
 }
 }
 
 function confirmar(vai){
 const nome=document.getElementById('convidado').value;
-if(!nome){alert("Por favor, digite seu nome.");return;}
-
-const msg=vai
-?`Confirmado: ${nome} vai na festa da Thaís!`
-:`${nome} não poderá ir.`;
-
-window.open(`https://wa.me/558189659847?text=${encodeURIComponent(msg)}`);
+if(!nome){alert("Digite seu nome.");return;}
 }
 </script>
 
